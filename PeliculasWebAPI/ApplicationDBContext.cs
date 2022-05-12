@@ -33,6 +33,7 @@ namespace PeliculasWebAPI {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             SeedingModuloConsulta.Seed(modelBuilder);
+            SeedingPersonaMensaje.Seed(modelBuilder);
 
             /* modelBuilder.Entity<Log>()
                         .Property(l => l.Id)
@@ -71,5 +72,7 @@ namespace PeliculasWebAPI {
         public DbSet<Log> Logs { get; set; }
         public DbSet<CineSinUbicacion> CineSinUbicacion { get; set; }
         public DbSet<PeliculaConteos> PeliculasConteos { get; set; }
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Mensaje> Mensajes { get; set; }
     }
 }

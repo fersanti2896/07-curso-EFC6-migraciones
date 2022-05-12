@@ -2,9 +2,10 @@
 
 Existen 3 tipos de manera de modificar o configurar las relaciones entre clases, y son: 
 
-1. __Relaciones por Convenciones__ 
-2. __Relaciones por Anotación de Datos__
-3. __Relaciones por API Fluente__
+1. __Relaciones por Convenciones.__ 
+1.1 __Relaciones Requeridas y Opcionales.__
+2. __Relaciones por Anotación de Datos.__
+3. __Relaciones por API Fluente.__
 
 ### Relaciones por Convenciones
 
@@ -20,7 +21,7 @@ Entidad: __CineOferta__
 
 ![cineOfertaEntidad](/PeliculasWebAPI/images/cineOfertaRelConv.png)
 
-### Relaciones Requeridas y Opcionales
+#### 1.1 Relaciones Requeridas y Opcionales
 
 __Relación Requerida__
 
@@ -61,3 +62,31 @@ Al eliminar el id `11` desde el endpoint, recibimos el status `200`.
 Al verificar en nuestra Base de Datos, se eliminó el registro de la Tabla `Cines` pero se conserva el registro que tiene la relación en a Tabla `CinesOfertas` pero en su columna `CineId` aparece como `NULL`.
 
 ![cineBorradoFinal](/PeliculasWebAPI/images/cineBorradoOpcional.PNG)
+
+### Relaciones por Anotación de Datos
+
+__Anotación InverseProperty__
+
+Se usa cuando se tienen dos relaciones con la misma clase. 
+
+En el ejemplo tenemos a la clase Persona y Mensaje, en el cual se tiene dos relaciones de Mensaje a la entidad Persona. 
+
+Tenemos la Entidad `Mensaje` donde almacenará los mensajes entre dos personas. 
+
+![mensajeEntidad](/PeliculasWebAPI/images/mensajeEntidad.png)
+
+Tenemos la Entidad `Persona` donde se hará dos relaciones con la propiedad `InverseProperty`.
+
+![personaEntidad](/PeliculasWebAPI/images/personaEntidad.png)
+
+Al crear un data seeding para datos de prueba se hace la migración. 
+
+![seeding](/PeliculasWebAPI/images/seedingPersona.png)
+
+Una vez hecha la migración, se hace el endpoint en `PersonasController`, donde se tiene una petición `HttpGet`.
+
+![PersonasController](/PeliculasWebAPI/images/PersonasController.png)
+
+Finalmente al probar el endpoint, nos devuelve el resultado esperado:
+
+![endpointPersonas](/PeliculasWebAPI/images/personaIdResult.PNG)
