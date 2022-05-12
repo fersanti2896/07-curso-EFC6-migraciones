@@ -19,3 +19,45 @@ Entidad: __Cine__
 Entidad: __CineOferta__
 
 ![cineOfertaEntidad](/PeliculasWebAPI/images/cineOfertaRelConv.png)
+
+### Relaciones Requeridas y Opcionales
+
+__Relación Requerida__
+
+Cuando se quiere eliminar un dato que tiene relación uno a uno o uno a muchos, se tiene la relación requerida, por ejemplo, se quiere eliminar un registro de la Tabla `Cines`, pero que tiene relación con la tabla `CineOfertas`.
+
+![tablaCinesYCOfertas](/PeliculasWebAPI/images/dataOriginal.PNG)
+
+El cual al borrar el registro `10` de la tabla Cines, desde nuestro endpoint, nos devuelve un resultado con status `200`.
+
+![status](/PeliculasWebAPI/images/dataBorrado.PNG)
+
+Al verificar en nuestra Base de Datos, efectivamente eliminó el registro `10` de la Tabla `Cines` y su relación en `CinesOfertas`.
+
+![cineBorrado](/PeliculasWebAPI/images/cineBorradoAfecta.PNG)
+
+__Relación Opcional__
+
+Del mismo ejemplo, queremos evitar que se elimine ambos registros, solo que se deje el segundo registro pero con la relación nula. Para ello se modifica nuestra Entidad `CineOferta` en donde la propiedad que hace la relación hacia la Entidad `Cine` se usa `?` para establecer que la relación será opcional. 
+
+![cineOfertaOpcional](/PeliculasWebAPI/images/cineOfertaOpcional.png)
+
+Haciendo la migración para que se apliquen los cambios en nuestra Base de Datos. 
+
+![migracionCinesOferta](/PeliculasWebAPI/images/migracionCinesOpcional.png)
+
+Al crear otro endpoint ya que ya existe uno para eliminar pero con la _relación requerida_, en nuestro `CinesController.cs` creamos el endpoint donde con el método `include()` incluirá solo el borrado del `Cine.Id`
+
+![cinesController](/PeliculasWebAPI/images/CinesControllerOpcional.png)
+
+Probando las modificaciones, tenemos el registro a eliminar `11` de la Tabla `Cines` con su relación en la Tabla `CinesOfertas` en el registro `9`. 
+
+![dataOriginal2](/PeliculasWebAPI/images/dataOriginal.PNG)
+
+Al eliminar el id `11` desde el endpoint, recibimos el status `200`.
+
+![dataBorrado2](/PeliculasWebAPI/images/dataBorrado2.PNG)
+
+Al verificar en nuestra Base de Datos, se eliminó el registro de la Tabla `Cines` pero se conserva el registro que tiene la relación en a Tabla `CinesOfertas` pero en su columna `CineId` aparece como `NULL`.
+
+![cineBorradoFinal](/PeliculasWebAPI/images/cineBorradoOpcional.PNG)

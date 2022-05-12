@@ -53,7 +53,7 @@ namespace PeliculasWebAPI.Controllers {
             var ubicacionCine = geoFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
 
             var cine = new Cine() {
-                Nombre = "Cinemex con Mon",
+                Nombre = "Cinemex para borrado opcional",
                 Ubicacion = ubicacionCine,
                 CineOferta = new CineOferta() {
                     DescuentoPorcentaje = 5,
@@ -94,6 +94,45 @@ namespace PeliculasWebAPI.Controllers {
             /* Propiedad set permite crear un DbContext en tiempo real */
             // return await context.Set<CineSinUbicacion>().ToListAsync();
             return await context.CineSinUbicacion.ToListAsync();
+        }
+
+        [HttpPut("cineOferta")]
+        public async Task<ActionResult> PutCineOferta(CineOferta cineOferta) {
+            context.Update(cineOferta);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id) {
+            var cine = await context.Cines
+                                    .FirstOrDefaultAsync(x => x.Id == id);
+
+            if(cine is null) {
+                return NotFound();
+            }
+
+            context.Remove(cine);
+            await context.SaveChangesAsync();
+            
+            return Ok();       
+        }
+
+        [HttpDelete("opcional({id:int}")]
+        public async Task<ActionResult> DeleteOpcional(int id) {
+            var cine = await context.Cines
+                                    .Include(c => c.CineOferta)
+                                    .FirstOrDefaultAsync(x => x.Id == id);
+
+            if(cine is null) {
+                return NotFound();
+            }
+
+            context.Remove(cine);
+            await context.SaveChangesAsync();
+            
+            return Ok();       
         }
     }
 }
