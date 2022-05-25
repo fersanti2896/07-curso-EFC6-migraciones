@@ -9,6 +9,15 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
                    .HasMaxLength(150)
                    .IsRequired();
 
+            /* Indica que tiene uno Cine un CineOferta */
+            builder.HasOne(c => c.CineOferta)
+                    .WithOne()
+                    .HasForeignKey<CineOferta>(co => co.CineId);
+
+            /* Indica que un Cine tiene muchas Salas de Cine */
+            builder.HasMany(c => c.SalaCine)
+                   .WithOne(s => s.Cine)
+                   .HasForeignKey(s => s.CineId);
         }
     }
 }

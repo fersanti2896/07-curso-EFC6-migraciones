@@ -19,7 +19,7 @@ Entidad: __Cine__
 
 Entidad: __CineOferta__
 
-![cineOfertaEntidad](/PeliculasWebAPI/images/cineOfertaRelConv.png)
+![cineOfertaEntidad](/PeliculasWebAPI/images/cineOfertaRelCon.png)
 
 #### 1.1 Relaciones Requeridas y Opcionales
 
@@ -90,3 +90,49 @@ Una vez hecha la migración, se hace el endpoint en `PersonasController`, donde 
 Finalmente al probar el endpoint, nos devuelve el resultado esperado:
 
 ![endpointPersonas](/PeliculasWebAPI/images/personaIdResult.PNG)
+
+__Relación uno a uno por API Fluent__
+
+Tenemos dos tablas o entidades de nombre _Cine_ y _CineOferta_ el cual un Cine solo tiene un Cine Oferta, esta relación se puede configurar desde su API Fluent del Cine
+
+En `CineConfig.cs` se hace la relación con el método `HasOne(c => c.CineOferta)` el cual indica que es una relación `uno-uno` de la propiedad CineOferta que está definida en la entidad `Cine.cs`.
+
+Con el método `WithOne()` indica a que propiedad será la relación.
+
+Con el método `HasForeignKey<CineOferta>(co => co.CineId)` indica que tomará la propiedad `CineId` de la entidad `CineOferta.cs` como llave forenea en `Cine.cs`.
+
+![RCine-Oferta](/PeliculasWebAPI/images/Cine-CineOferta.png)
+
+__Relación uno a muchos por API Fluent__
+
+Tenemos dos tablas o entidades de nombre _Cine_ y _SalasCine_, en el cual un Cine puede tener muchas Salas de Cine, esta relación se puede configurar desde su API Fluent del Cine.
+
+En `CineConfig.cs` se hace la relación con el método `HasMany(c => c.CineOferta)` el cual indica que es una relación `uno-muchos` de la propiedad SalaCine que está definida en la entidad `Cine.cs`.
+
+Con el método `WithOne(s => s.Cine)` indica a que propiedad será la relación de la enitidad `SalaCine.cs`. 
+
+Con el método `HasForeignKey(s => s.CineId)` indicará que tomará la propiedad `CineId` de la entidad `SalaCine.cs` como llave foranea en `Cine.cs`.
+
+![RCine-SalaCine](/PeliculasWebAPI/images/Cine-SalaCine.png)
+
+__Relación muchos a muchos en API Fluent con una clase intermedia__
+
+Para indicar una relación `muchos a muchos`, se definen dos relaciones `uno a muchos`, tenemos dos tablas _Pelicula_ y _Actor_ donde una Película puede tener muchos Actores y un Actor puede estar participando o actuado en muchas Películas. 
+
+En `PeliculaActorConfig.cs` se hace la doble relación que se hace en `uno a muchos`. 
+
+![Pelicula-Actor](/PeliculasWebAPI/images/Pelicula-Actor.png)
+
+
+__Relación muchos a muchos en API Fluent sin una clase intermedia (skipNavigation)__
+
+Para indicar una relación `muchos a muchos`, entre dos tablas sin contar con la entidad intermedia, el ejemplo lo haremos entre las entidades `Pelicula.cs` y `Genero.cs`. 
+
+En `PeliculaConfig.cs` se hace la relación `muchos-muchos`, donde un Película tiene muchss Géneros con el método `HasMany(p => p.Generos)` y un Género tiene muchas Películas con el método `WithMany()` y creamos la tabla intermedia con el método `UsignEntity()` y `ToTable()`.
+
+![Pelicula-Genero](/PeliculasWebAPI/images/Pelicula-Genero.png)
+
+
+
+
+
