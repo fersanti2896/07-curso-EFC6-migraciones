@@ -53,8 +53,13 @@ namespace PeliculasWebAPI.Controllers {
             var ubicacionCine = geoFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
 
             var cine = new Cine() {
-                Nombre = "Cinepolis con Restrict",
+                Nombre = "Cinemark con detalle TableSplitting",
                 Ubicacion = ubicacionCine,
+                CineDetalle = new CineDetalle() { 
+                    Historia    = "Historia...",
+                    CodigoEtica = "CodigoEtica...",
+                    Misiones    = "Misiones..."
+                },
                 CineOferta = new CineOferta() {
                     DescuentoPorcentaje = 5,
                     FechaInicio = DateTime.Today,
@@ -78,6 +83,23 @@ namespace PeliculasWebAPI.Controllers {
             await context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> Get(int id) { 
+            var cine = await context.Cines
+                                    .AsTracking()
+                                    .Include(c => c.SalaCine)
+                                    .Include(c => c.CineOferta)
+                                    .Include(c => c.CineDetalle)
+                                    .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cine is null)
+                return NotFound();
+
+            cine.Ubicacion = null;
+            return Ok(cine);
+
         }
 
         [HttpPost("conDTO")]

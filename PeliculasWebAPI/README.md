@@ -6,6 +6,8 @@ Existen 3 tipos de manera de modificar o configurar las relaciones entre clases,
 1.1 __Relaciones Requeridas y Opcionales.__
 2. __Relaciones por Anotación de Datos.__
 3. __Relaciones por API Fluente.__
+4. __División de Tablas__
+5. __Herencia__
 
 ### Relaciones por Convenciones
 
@@ -180,6 +182,49 @@ Al comprobar en la Base de Datos, notamos que se eliminó tanto el registro de l
 
 ![Cine-SalaCineBD](/PeliculasWebAPI/images/Cines-SalaCineBD.PNG)
 
+### División de Tablas
+
+__Table Splitting__
+
+Tiene la función de dividir una tabla en varias entidades, es útil cuando se tiene una tabla con muchas columnas y se quieren separar esas columnas en distintas entidades, pero para implementar el __`Table Splitting`__ es necesario que una propiedad sea requerida.
+
+En este ejemplo, queremos agregar más campos o columnas a nuestra tabla de _Cines_.
+
+Creamos una entidad llamada `CineDetalle.cs`
+
+![CineDetalle](/PeliculasWebAPI/images/CineDetalle.png)
+
+Posteriormente en `CineConfig.cs` con el `API Fluent` hacemos que las entidades `Cine.cs` y `CineDetalle.cs` apunten a la misma tabla. 
+
+![CineDetalle-Cine](/PeliculasWebAPI/images/CineDetalle-CineAPI.png)
+
+Para dar las configuraciones de las propiedades de la entidad `CineDetalle.cs` creamos su clase de configuración `CineDetalleConfig.cs`.
+
+El cual con el método `ToTable("Cines")` va mapear los campos a la tabla existente `Cines`. 
+
+![CineDetalleConfig](/PeliculasWebAPI/images/CineDetalleConfig.png)
+
+Una vez hecho esto, se hace la migración, donde ya se encuentran las nuevas columnas a agregar, después se empujan hacia la base de datos. 
+
+![CineDetalleMigracion](/PeliculasWebAPI/images/CineDetalleMigracion.png)
+
+Al insertar dos registros, y verificar en nuestra base de datos, tenemos los registros ya con las columnas. 
+
+![CinesDB](/PeliculasWebAPI/images/CinesDB.PNG)
+
+Si queremos buscar un _id_ solo nos traerá la información que se tiene en el endpoint, pero mostrará como _CineDetalle_ como nulo
+
+![CineIdConsulta](/PeliculasWebAPI/images/CineIdConsulta.PNG)
+
+Para ello hacemos la configuración en `CinesController.cs`.
+
+![CinesControllerWithCineDetalle](/PeliculasWebAPI/images/CinesControllerCineDetalle.png)
+
+Al volver hacer la búsqueda por el _id_ ya nos mostrará la información completa. 
+
+![CineIdConsulta2](/PeliculasWebAPI/images/CineIdConsulta2.PNG)
+
+### Herencia
 
 
 

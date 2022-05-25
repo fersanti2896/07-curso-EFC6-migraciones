@@ -74,5 +74,6 @@ namespace PeliculasWebAPI {
         public DbSet<PeliculaConteos> PeliculasConteos { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Mensaje> Mensajes { get; set; }
+        public DbSet<CineDetalle> CineDetalle { get; set; }
     }
 }

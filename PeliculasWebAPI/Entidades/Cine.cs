@@ -12,5 +12,8 @@ namespace PeliculasWebAPI.Entidades {
 
         /* HashSet es una colección */
         public HashSet<SalaCine> SalaCine { get; set; }
+
+        /* Propieda de navegación */
+        public CineDetalle CineDetalle { get; set; }
     }
 }

@@ -19,6 +19,11 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
                    .WithOne(s => s.Cine)
                    .HasForeignKey(s => s.CineId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            /* Indicamos que Cine y CineDetalle apunta a la misma tabla */
+            builder.HasOne(c => c.CineDetalle)
+                   .WithOne(cd => cd.Cine)
+                   .HasForeignKey<CineDetalle>(cd => cd.Id);
         }
     }
 }
