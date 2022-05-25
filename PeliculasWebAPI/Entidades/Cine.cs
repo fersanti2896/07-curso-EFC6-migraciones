@@ -15,5 +15,8 @@ namespace PeliculasWebAPI.Entidades {
 
         /* Propieda de navegación */
         public CineDetalle CineDetalle { get; set; }
+
+        /* Entidad de propiedad */
+        public Direccion Direccion { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace PeliculasWebAPI {
                         .ValueGeneratedNever(); */
 
             /* Ignorando una clase */
-            // modelBuilder.Ignore<Direccion>();
+            //modelBuilder.Ignore<Direccion>();
 
             modelBuilder.Entity<CineSinUbicacion>()
                         .HasNoKey() /* Hace que la entidad no tenga llave primaria */

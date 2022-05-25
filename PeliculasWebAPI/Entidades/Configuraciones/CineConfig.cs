@@ -24,6 +24,12 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
             builder.HasOne(c => c.CineDetalle)
                    .WithOne(cd => cd.Cine)
                    .HasForeignKey<CineDetalle>(cd => cd.Id);
+
+            builder.OwnsOne(c => c.Direccion, dir => {
+                dir.Property(d => d.Calle).HasColumnName("Calle");
+                dir.Property(d => d.Provincia).HasColumnName("Provincia");
+                dir.Property(d => d.Pais).HasColumnName("Pais");
+            });
         }
     }
 }

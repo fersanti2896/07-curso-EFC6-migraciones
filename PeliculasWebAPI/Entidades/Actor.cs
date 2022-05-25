@@ -42,6 +42,8 @@ namespace PeliculasWebAPI.Entidades {
             }
         }
 
-        public Direccion Direccion { get; set; }
+        /* Entidad de propiedad */
+        public Direccion DireccionHogar { get; set; }
+        public Direccion BillingAddress { get; set; }
     }
 }

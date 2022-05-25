@@ -17,8 +17,14 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
             /* builder.Property(prop => prop.FechaNac)
                       .HasColumnType("date"); */
 
-            builder.Ignore(a => a.Edad);
-            builder.Ignore(a => a.Direccion);
+            //builder.Ignore(a => a.Edad);
+            //builder.Ignore(a => a.DireccionHogar);
+
+            builder.OwnsOne(a => a.DireccionHogar, dir => {
+                dir.Property(d => d.Calle).HasColumnName("Calle");
+                dir.Property(d => d.Provincia).HasColumnName("Provincia");
+                dir.Property(d => d.Pais).HasColumnName("Pais");
+            });
         }
     }
 }

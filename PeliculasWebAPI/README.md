@@ -7,7 +7,8 @@ Existen 3 tipos de manera de modificar o configurar las relaciones entre clases,
 2. __Relaciones por Anotación de Datos.__
 3. __Relaciones por API Fluente.__
 4. __División de Tablas__
-5. __Herencia__
+5. __Entidades de Propiedad__
+6. __Herencia__
 
 ### Relaciones por Convenciones
 
@@ -223,6 +224,40 @@ Para ello hacemos la configuración en `CinesController.cs`.
 Al volver hacer la búsqueda por el _id_ ya nos mostrará la información completa. 
 
 ![CineIdConsulta2](/PeliculasWebAPI/images/CineIdConsulta2.PNG)
+
+### Entidades de Propiedad 
+
+Es similar a la división de tablas, las entidades de propiedad nos permiten usar las columnas de una tabla en distintas clases. La diferencia entre Table Splitting, es que las Entidades de Propiedad tiene la entidad dependiente puede ser usada en muchas entidades. 
+
+Tenemos el ejemplo de la entidad `Direccion.cs` podemos usar como una entidad de propiedad y se puede reutilizar en otras entidades, como `Cine.cs`y `Actor.cs`
+
+Para convertir `Direccion.cs` a una entidad de propiedad, tenemos que marcarla con la propiedad `Owned` que significa que otra entidad de va adueñar de la entidad `Direccion.cs` y una propiedad debe ser `Required`.
+
+![DireccionEntProp](/PeliculasWebAPI/images/DireccionEntidadProp.png)
+
+Se añade la entidad de protección en `Actor.cs` y `Cine.cs`
+
+![cineWithEntProp](/PeliculasWebAPI/images/CineWithEntidadProp.png)
+
+Luego se hace la migración, pero se tiene con la nomenclatura `Direccion_(nombre de la propiedad)`.
+
+![DireccionMigracionExam](/PeliculasWebAPI/images/MigracionDireccionOwnedExam.png)
+
+Para cambiarlo, hacemos uso del `API Fluent` en `CineConfig.cs` y cambiamos con el método `OwnsOne()` sus propiedades. 
+
+![CineConfigOwns](/PeliculasWebAPI/images/CineConfigOwns.png)
+
+Se hace el mismo procedimiento en `ActorConfig.cs`
+
+![ActorConfigOwns](/PeliculasWebAPI/images/ActorConfigOwns.png)
+
+Hacemos de nuevo la migración y vemos que ya se han aplicado los cambios correctos. 
+
+![ActorCineMigracion](/PeliculasWebAPI/images/ActorCineMigracion.png)
+
+Al hacer la consulta a nuestras tablas `Cine` y `Actor` se visualizan los campos agregados. 
+
+![ActorCineDB](/PeliculasWebAPI/images/CineActorDB.PNG)
 
 ### Herencia
 
