@@ -132,6 +132,53 @@ En `PeliculaConfig.cs` se hace la relación `muchos-muchos`, donde un Película 
 
 ![Pelicula-Genero](/PeliculasWebAPI/images/Pelicula-Genero.png)
 
+__Borrado por OnDelete desde API Fluent__
+
+__Método `OnDelete()`__
+
+Cuando se tiene una relación entre dos entidades, está la entidad principal y la dependiente, pero cuando se borra la principal, qué puede pasar con la entidad dependiente. 
+
+El cual al usar el método `OnDelete()` podemos usar las opciones: 
+
+`Cascade`, el cual las entidades dependientes son borradas sí la entidad principal es borrada a nivel de base de datos aunque no todos los motores de bases de datos la soportan.
+
+`ClientCascade`, realiza el borrado de las entidades dependientes de la aplicación, pero esta requiere que al cargar la entidad principal también se carguen las entidades dependientes. 
+
+`NoAction`, esta no hará ninguna operación, pero tendrá problemas si borramos la entidad principal, pero su entidad dependiente apuntará a un registro que no existe. 
+
+`Client NoAction`, similar a `NoAction`.
+
+`Restric`, es similar a `NoAction`
+
+`SetNull`, coloca valores nulos en la llave foranea. 
+
+`Client SetNull`, se coloca null desde la aplicación y no en la base de datos, pero se necesitan tener las entidades dependientes cargadas al momento de borrar la entidad principal.
+
+Por ejemplo, queremos hacer una prueba eliminando un registro de una entidad principal (`Cine.cs`), veremos que pasa si usamos `Restrict` en `CineConfig.cs`.
+
+![UsoRestrict](/PeliculasWebAPI/images/CineConfigRestric.png)
+
+Tenemos nuestros registros con el _id_ 12 en la tabla/entidad Cines, que se relaciona con los _ids_ 19 y 20 de la tabla/entidad SalasCines. 
+
+![registroDB](/PeliculasWebAPI/images/Cine-SalaCineBD.PNG)
+
+Al querer borrar el _id_ 12 con 'Cinepolis con Restric' nos arroja un error, ya que no se puede borrar el registro con la propiedad `Restrict` que definimos. 
+
+![ErrorBorrado](/PeliculasWebAPI/images/ErrorEliminadoCine.PNG)
+
+Pero si queremos borrar el _12_ del Cine, debemos primero borrar el registro dependiente, desde `CineController.cs`
+
+Con el método `Include()` incuimos la Sala de Cine a eliminar y lo removemos. 
+
+![removerSalaCineController](/PeliculasWebAPI/images/borradoSalaCineDesdeController.png)
+
+Al borrar el _12_ del Cine, ya nos manda una respuesta `200`. 
+
+![CineBorradoRestric](/PeliculasWebAPI/images/CineBorradoWithRestric.PNG)
+
+Al comprobar en la Base de Datos, notamos que se eliminó tanto el registro de la tabla/entidad principal así como el registro que era dependiente del _id_ borrado. 
+
+![Cine-SalaCineBD](/PeliculasWebAPI/images/Cines-SalaCineBD.PNG)
 
 
 

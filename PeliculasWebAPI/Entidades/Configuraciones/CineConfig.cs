@@ -17,7 +17,8 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
             /* Indica que un Cine tiene muchas Salas de Cine */
             builder.HasMany(c => c.SalaCine)
                    .WithOne(s => s.Cine)
-                   .HasForeignKey(s => s.CineId);
+                   .HasForeignKey(s => s.CineId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

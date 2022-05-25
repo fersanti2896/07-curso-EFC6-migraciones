@@ -53,7 +53,7 @@ namespace PeliculasWebAPI.Controllers {
             var ubicacionCine = geoFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
 
             var cine = new Cine() {
-                Nombre = "Cinemex para borrado opcional",
+                Nombre = "Cinepolis con Restrict",
                 Ubicacion = ubicacionCine,
                 CineOferta = new CineOferta() {
                     DescuentoPorcentaje = 5,
@@ -107,11 +107,16 @@ namespace PeliculasWebAPI.Controllers {
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id) {
             var cine = await context.Cines
+                                    .Include(c => c.SalaCine)
+                                    .Include(c => c.CineOferta)
                                     .FirstOrDefaultAsync(x => x.Id == id);
 
             if(cine is null) {
                 return NotFound();
             }
+
+            context.RemoveRange(cine.SalaCine);
+            await context.SaveChangesAsync();
 
             context.Remove(cine);
             await context.SaveChangesAsync();
