@@ -303,16 +303,50 @@ Pero para consultar los datos a través de un `endpoint` creamos nuestro `PagosC
 
 Al probar cada `endpoint` del tipo `GET` nos devuelve los siguientes resultados, es decir:
 
-`api/pagos`: 
+`GET:api/pagos` 
 
 ![api/pagos](/PeliculasWebAPI/images/api-pagos.PNG)
 
-`api/pagos/tarjeta`:
+`GET:api/pagos/tarjeta`
+
 ![api/pagos/tarjeta](/PeliculasWebAPI/images/api-pagos-tarjeta.PNG)
 
-`api/pagos/paypal`:
+`GET:api/pagos/paypal`
 
 ![api/pagos/paypal](/PeliculasWebAPI/images/api-pagos-paypal.PNG)
 
 __Tabla por Tipo__
+
+Esta técnica crea una tabla por cada entidad involucrada en la relación. Es útil si muchas entidades tienen distinta _data_ diferente y por consecuente no es remendable tener todo en una misma tabla. 
+
+En este ejemplo, creamo una clase abstracta llamada `Producto.cs`. 
+
+![Producto](/PeliculasWebAPI/images/Producto.png)
+
+Luego creamos dos clases que heredarán de `Producto.cs`, estas clases tienen el nombre de `PeliculaAlquilado.cs` y `Mercancia.cs`
+
+![PeliculaAlquilado](/PeliculasWebAPI/images/PeliculaAlquilable.png)
+
+![Mercancia](/PeliculasWebAPI/images/Mercancia.png)
+
+Finalmente creamos la migración, el cual se visualiza que se crearán 3 tablas por cada entidad pero que están relacionada, aplicamos `Updata-Database` para aplicar los cambios.
+
+![MigracionHerenciaTipo](/PeliculasWebAPI/images/MigracionHerenciaTipoTabla.png)
+
+Creamos nuestro controlador `ProductosController.cs` el cual va tener nuestros `endpoints` de tipo `GET` donde consultará todos los Productos, Mercancia y las Peliculas Alquiladas. 
+
+![ProductoController](/PeliculasWebAPI/images/ProductosController.png)
+
+`GET:api/productos`
+
+![api/productos](/PeliculasWebAPI/images/api-productos.PNG)
+
+`GET:api/productos/mercancia`
+
+![api/productos/mercancia](/PeliculasWebAPI/images/api-productos-mercancia.PNG)
+
+`GET:api/productos/alquileres`
+
+![api/productos/alquileres](/PeliculasWebAPI/images/api-productos-alquilares.PNG)
+
 

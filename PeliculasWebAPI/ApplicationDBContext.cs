@@ -60,6 +60,29 @@ namespace PeliculasWebAPI {
                     }
                 }
             }
+
+            modelBuilder.Entity<Mercancia>().ToTable("Mercancia");
+            modelBuilder.Entity<PeliculaAlquilable>().ToTable("PeliculasAlquilables");
+
+            var pelicula1 = new PeliculaAlquilable() { 
+                Id         = 1,
+                Nombre     = "Dr Strange",
+                PeliculaId = 6,
+                Precio     = 5.99m
+            };
+
+            var mercancia1 = new Mercancia() {
+                Id                   = 2,
+                DisponibleInventario = true,
+                EsRopa               = true,
+                Nombre               = "Taza coleccionable",
+                Peso                 =  1,
+                Volumen              = 1, 
+                Precio               = 11
+            };
+
+            modelBuilder.Entity<Mercancia>().HasData(mercancia1);
+            modelBuilder.Entity<PeliculaAlquilable>().HasData(pelicula1);
         }
 
         public DbSet<Genero> Generos { get; set; }
@@ -76,5 +99,6 @@ namespace PeliculasWebAPI {
         public DbSet<Mensaje> Mensajes { get; set; }
         public DbSet<CineDetalle> CineDetalle { get; set; }
         public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Producto> Productos { get; set; }
     }
 }
