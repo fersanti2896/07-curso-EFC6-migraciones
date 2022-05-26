@@ -261,5 +261,58 @@ Al hacer la consulta a nuestras tablas `Cine` y `Actor` se visualizan los campos
 
 ### Herencia
 
+__Tabla por Jerarquía__
 
+Las entidades se pueden relacionar por herencia, la técnica _tabla por jerarquía_ nos permite almacenar todas las clases de una jerarquía en una misma tabla. 
+
+Por ejemplo, creamos una clase abstracta llamada `Pago.cs` la cual va tener propiedades de todo tipo de pago y tendrá dos clase derivadas como `PagoPayPal.cs` y `PagoTarjeta.cs`. 
+
+Se crea además una entidad `AlquilerPelicula.cs` el cual va tener un modelado del alquier de películas. 
+
+Creamos la clase abstracta `Pago.cs`. 
+
+![pago](/PeliculasWebAPI/images/Pago.png)
+
+También creamos las clases `PagoPaypal.cs` y `PagoTarjeta.cs`
+
+![pagoPaypal](/PeliculasWebAPI/images/PagoPaypal.png)
+
+![pagoTarjeta](/PeliculasWebAPI/images/PagoTarjeta.png)
+
+Después configuramos `PagoConfig.cs` en donde con el método `HasDiscriminator()` va elegir si el método de pago es por tarjeta o paypal.
+
+![PagoConfig](/PeliculasWebAPI/images/PagoConfig.png)
+
+También creamos `PagoTarjetaConfig.cs` para configurar sus propiedades y agregar datos de prueba. 
+
+![PagoTarjetaConfig](/PeliculasWebAPI/images/PagoTarjetaConfig.png)
+
+También creamos `PagoTarjetaConfig.cs` para configurar sus propiedades y agregar datos de prueba. 
+
+![PagoTarjetaConfig](/PeliculasWebAPI/images/PagoTarjetaConfig.png)
+
+Posteriormente hacemos la migración correspondiente y hacemos `Update-Database` para que empuje los cambios en la base de datos. 
+
+Vemos los cambios realizados en nuestra base de datos. 
+
+![pagodDB](/PeliculasWebAPI/images/PagosDB.PNG)
+
+Pero para consultar los datos a través de un `endpoint` creamos nuestro `PagosController.cs`.
+
+![PagosController](/PeliculasWebAPI/images/PagosController.png)
+
+Al probar cada `endpoint` del tipo `GET` nos devuelve los siguientes resultados, es decir:
+
+`api/pagos`: 
+
+![api/pagos](/PeliculasWebAPI/images/api-pagos.PNG)
+
+`api/pagos/tarjeta`:
+![api/pagos/tarjeta](/PeliculasWebAPI/images/api-pagos-tarjeta.PNG)
+
+`api/pagos/paypal`:
+
+![api/pagos/paypal](/PeliculasWebAPI/images/api-pagos-paypal.PNG)
+
+__Tabla por Tipo__
 
