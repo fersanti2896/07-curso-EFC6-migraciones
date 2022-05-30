@@ -17,5 +17,6 @@ namespace PeliculasWebAPI.Entidades {
         public string Nombre { get; set; }
         public HashSet<Pelicula> Peliculas { get; set; }
         public bool EstaBorrado { get; set; }
+        public string Ejemplo { get; set; }
     }
 }
