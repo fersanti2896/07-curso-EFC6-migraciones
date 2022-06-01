@@ -1,8 +1,10 @@
 # Resumen de la sección 7: Comandos y Migraciones
+___
 
 1. __Comando `Get-Help`.__
 2. __Comando `Add-Migration`.__ 
 3. __Comando `Update-Database`.__ 
+4. __Comando `Remove-Migration`__
 
 #### Comando `Get-Help`
 
@@ -56,6 +58,50 @@ Aquí empuja las migraciones restantes a nuestra base de datos.
 
 ![migraciones-restantes](/PeliculasWebAPI/images/update-database2.PNG)
 
-Volvemos a verificar si se aplicaron las migraciones en nuestra bae de datos. 
+Volvemos a verificar si se aplicaron las migraciones en nuestra base de datos. 
 
 ![lista-migraciones-2](/PeliculasWebAPI/images/lista-migraciones2.PNG)
+
+#### Comando `Remove-Migration`
+
+Podemos remover migraciones, se puede hacer en dos escenarios: 
+
+_Remover migración que no ha sido aplicada a la base de datos._  
+
+El cual para este ejemplo agregaremos otro campo a nuestra entidad `Genero.cs`, al agregar la migración, veremos la forma de revertirla.
+
+Con `Remove-Migration` removemos la migración que se había agregado, esto no afectará, puesto que aún no ha sido agregada a la base de datos. 
+
+![remove-migration](/PeliculasWebAPI/images/remove-migration.PNG)
+
+_Remover migración que si ha sido aplicado a la base de datos._
+
+Ahora bien, si aplicamos la migración hacia la base de datos, vemos la forma de revertirlo. Por lo cual agregamos la migración y empujamos los cambios hacia la base de datos. 
+
+![update-database-remove](/PeliculasWebAPI/images/remove-migration-desdeBD.PNG)
+
+Vemos las migraciones que se han aplicado en la base de datos. 
+
+![lista-migraciones-3](/PeliculasWebAPI/images/lista-migraciones3.PNG)
+
+Si aplicamos `Remove-Migration` nos devolverá un error, puesto que ya la migración se aplicó a la base de datos, por lo cual este comando ya no nos funciona. 
+
+Pero si aplicamos `Remove-Migration -Force`, lo que hará es aplicar el método `Down()` de la migración que se hizo, el cual revierte dicha migración.
+
+![remove-migration-force](/PeliculasWebAPI/images/remove-migration-force.PNG)
+
+Si verificamos desde nuestra base de datos la lista de migraciones, notamos que ya no existe dicha migración. 
+
+![migracion-removida](/PeliculasWebAPI/images/lista-migraciones4.PNG)
+
+Ahora bien, si queremos solo remover una migración parcialmente, puesto que en una migración puede tener muchos cambios, veamos el ejemplo de la migración `GeneroExample.cs`
+
+Para ello no usamos el comando de `Remove-Migration` sino que hacemos una nueva migración anulando lo que queremos resetear.
+
+Para ello modificamos la entidad `Genero.cs` para hacer los cambios pertinentes, al generar la nueva migración, ya se eliminan los campos que queríamos que se quitaran. 
+
+![campos-removidos](/PeliculasWebAPI/images/eliminar-campos-generos.png)
+
+Al ejecutar los cambios y agregarlos a la base de datos, esta se aplica 
+
+![aplicacion-migracion](/PeliculasWebAPI/images/nueva-migracion.PNG)
