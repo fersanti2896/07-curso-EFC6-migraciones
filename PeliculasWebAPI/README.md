@@ -5,6 +5,7 @@ ___
 2. __Comando `Add-Migration`.__ 
 3. __Comando `Update-Database`.__ 
 4. __Comando `Remove-Migration`__
+5. __Comando `Get-Migration`__
 
 #### Comando `Get-Help`
 
@@ -105,3 +106,15 @@ Para ello modificamos la entidad `Genero.cs` para hacer los cambios pertinentes,
 Al ejecutar los cambios y agregarlos a la base de datos, esta se aplica 
 
 ![aplicacion-migracion](/PeliculasWebAPI/images/nueva-migracion.PNG)
+
+#### Comando `Get-Migration`
+
+Con este comando se pueden visualizar las migraciones aplicadas y pendientes que ha tenido nuestra aplicación, desde la primera hasta la actual. 
+
+En la columna `Applied` vemos si tiene un status `True` o `False` el cual menciona la migración si ha sido aplicada o no en la base de datos. 
+
+![Get-Migration](/PeliculasWebAPI/images/Get-Migration.PNG)
+
+Si hacemos `Get-Migration -NoConnect` esta enlistará todas las migraciones pero sin información en la columna `Applied` puesto que solo lista las migraciones pero sin conectarse a la base de datos. 
+
+![Get-Migration-NoConnect](/PeliculasWebAPI/images/Get-Migration-NoConnect.PNG)
