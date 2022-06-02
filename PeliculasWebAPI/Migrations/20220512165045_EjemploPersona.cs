@@ -22,7 +22,7 @@ namespace PeliculasWebAPI.Migrations {
                 name   : "Mensajes",
                 columns: table => new {
                     Id         = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                                      .Annotation("SqlServer:Identity", "1, 1"),
                     Contenido  = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmisorId   = table.Column<int>(type: "int", nullable: false),
                     ReceptorId = table.Column<int>(type: "int", nullable: false)

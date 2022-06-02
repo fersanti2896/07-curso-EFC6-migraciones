@@ -4,8 +4,10 @@ ___
 1. __Comando `Get-Help`.__
 2. __Comando `Add-Migration`.__ 
 3. __Comando `Update-Database`.__ 
-4. __Comando `Remove-Migration`__
-5. __Comando `Get-Migration`__
+4. __Comando `Remove-Migration`.__
+5. __Comando `Get-Migration`.__
+6. __Comando `Drop-Database`.__
+7. __Modificando una migración manualmente.__
 
 #### Comando `Get-Help`
 
@@ -118,3 +120,20 @@ En la columna `Applied` vemos si tiene un status `True` o `False` el cual mencio
 Si hacemos `Get-Migration -NoConnect` esta enlistará todas las migraciones pero sin información en la columna `Applied` puesto que solo lista las migraciones pero sin conectarse a la base de datos. 
 
 ![Get-Migration-NoConnect](/PeliculasWebAPI/images/Get-Migration-NoConnect.PNG)
+
+#### Comando `Drop-Database`
+
+Sirve para borrar una base de datos, este comando se debe usar con suma precaución
+
+
+#### Modificando una migración manualmente
+
+Una migración permite configurar nuestra base de datos, también las migraciones provienen en base a las modificaciones que se hacen en nuestros modelos. 
+
+Por lo que podemos configurar una migración de manera manual, por ejemplo, de una migración vacía llamada `VistaPeliculaConteo.cs`
+
+![migracion-manual](/PeliculasWebAPI/images/migracion-manual.png)
+
+Otro caso de migración manual, fue en `EjemploPersona.cs`, donde modificamos una propiedad `OnDelete` en modo `Restrict`. 
+
+![migracion-manual2](/PeliculasWebAPI/images/migracion-manual2.png)
