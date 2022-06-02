@@ -8,6 +8,7 @@ ___
 5. __Comando `Get-Migration`.__
 6. __Comando `Drop-Database`.__
 7. __Modificando una migración manualmente.__
+8. __Migration Bundles.__
 
 #### Comando `Get-Help`
 
@@ -137,3 +138,34 @@ Por lo que podemos configurar una migración de manera manual, por ejemplo, de u
 Otro caso de migración manual, fue en `EjemploPersona.cs`, donde modificamos una propiedad `OnDelete` en modo `Restrict`. 
 
 ![migracion-manual2](/PeliculasWebAPI/images/migracion-manual2.png)
+
+#### Migration Bundles o Empaquetado de Migraciones
+
+Tenemos que con el comando `Update-Database` podemos empujar los cambios a nuestra base de datos, pero no siempre esta forma es la más conveniente. 
+
+Si tenemos una base de datos en docker o en un servidor el cual no tiene un empaquetado de .NET, la solución para esto es hacer un `Migration Bundles` el cual crea un ejecutable el cual se puede correr en una base de datos y esta va a ejecutar las migraciones pendientes por aplicarse. 
+
+Es decir, es un pequeño programa con las migraciones configuradas. 
+
+Por ejemplo, si queremos empaquetar nuestras migraciones, en el directorio raíz de nuestro proyecto, ejecutamos una terminal de _PowerShell_ y damos el siguiente comando:
+
+    dotnet ef migrations bundle --configuration Bundle
+
+![migration-bundle](/PeliculasWebAPI/images/migration-bundle.PNG)
+
+El cual nos va crear el ejecutable el cual contiene todas las migraciones de nuestra aplicación. 
+
+![migration-bundle-ejecutable](/PeliculasWebAPI/images/migration-bundle-ejecutable.PNG)
+
+Si queremos ejecutar nuestro bundle en cualquier base de datos, lo hacemos con el siguiente comando en _PowerShell_:
+
+    .\efbundle.exe --connection "Connection_String"
+
+Si no existe la base de datos, la crea como si ejecutaramos `Update-Database` como lo hemos venido trabajando. 
+
+Si existe la base de datos, solo actualiza los cambios o migraciones pendientes. 
+
+Si tenemos una nueva migración, podemos generar o actualizar nuestro Bundle existente, con el comando: 
+
+    dotnet ef migrations bundle --configuration Bundle --force
+
