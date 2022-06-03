@@ -34,6 +34,14 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
+// /* Crea un contexto que instancia al DbContext */
+// using (var scope = app.Services.CreateScope()) {
+//     /* Se tiene una instancia al DbContext */
+//     var applicationDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+//     /* Ejecuta las migraciones al carga la aplicaci�n */
+//     applicationDbContext.Database.Migrate();
+// }
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

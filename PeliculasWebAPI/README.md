@@ -10,6 +10,7 @@ ___
 7. __Modificando una migración manualmente.__
 8. __Migration Bundles.__
 9. __Comando `Script-Migration`__
+10. __Database Migrate - Aplicando migraciones desde C#.__
 
 #### Comando `Get-Help`
 
@@ -192,3 +193,14 @@ Como resultado tendremos ya las migraciones y sus diferencias.
 
 Pero como se mencionó antes, la desventaja de usar `Script-Migration -Idempotent` es que si tenemos en una migración código personalizado, no será posible ejecutar el código SQL hacia la base de datos, ya que dará un error de sintaxis, por el cual en un proceso continúo de cambios, se recomienda usar mejor `Migration Bundle` ya que este proceso empaquetará mejor los cambios que queremos ejecutar hacia la base de datos. 
 
+#### Database Migrate - Aplicando migraciones desde C#
+
+Otra forma de aplicar las migraciones (además de las pendientes) en nuestra aplicación es usando la función `Migrate`, pero hay algunos inconvenientes de usar esta función: 
+
+ - Si se tarda mucho en ejecutarse, puede haber un `timeout` en ASP.NET Core.
+ - Puede que la primera vez tarde mucho en cargar la aplicación. 
+ -Si hay un error, es muy complicado `debuggear`.
+
+Esta configuración se hace desde `Program.cs`, cuando se ejecuta la aplicación, implementará las migraciones hacia la base de datos, sin necesidad de usar los comandos que hemos visto. 
+
+![database-migration](/PeliculasWebAPI/images/database-migration.png)
