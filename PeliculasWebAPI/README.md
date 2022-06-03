@@ -9,6 +9,7 @@ ___
 6. __Comando `Drop-Database`.__
 7. __Modificando una migración manualmente.__
 8. __Migration Bundles.__
+9. __Comando `Script-Migration`__
 
 #### Comando `Get-Help`
 
@@ -168,4 +169,26 @@ Si existe la base de datos, solo actualiza los cambios o migraciones pendientes.
 Si tenemos una nueva migración, podemos generar o actualizar nuestro Bundle existente, con el comando: 
 
     dotnet ef migrations bundle --configuration Bundle --force
+
+#### Comando `Script-Migration`
+
+Además de `Update-Database` y del comando de Bundle Migration, otra forma de actualizar nuestra base de datos es por medio `Script-Migration`, el cual se encarga de generar un script de SQL para llevar acabo la actualización de la base de datos. 
+
+![script-migration](/PeliculasWebAPI/images/script-migration.PNG)
+
+Pero hay una desventaja de usar `Script-Migration` y es cuando tenemos código personalizado en una migración el no tiene un `idempotent`, ya que si lo hacemos solo con `Script-Migration` al empujar los cambios a la base de datos, esta nos devolverá un error ya que hay migraciones que tienen el mismo contenido SQL y daría un error de duplicado.
+
+![script-migration-dup](/PeliculasWebAPI/images/script-migration2.PNG)
+
+Para solucionarlo, se aplica:
+
+    Script-Migration --Idempotent
+
+![script-idem](/PeliculasWebAPI/images/script-migration-idem.PNG)
+
+Como resultado tendremos ya las migraciones y sus diferencias. 
+
+![script-idem-2](/PeliculasWebAPI/images/script-migration-idem2.PNG)
+
+Pero como se mencionó antes, la desventaja de usar `Script-Migration -Idempotent` es que si tenemos en una migración código personalizado, no será posible ejecutar el código SQL hacia la base de datos, ya que dará un error de sintaxis, por el cual en un proceso continúo de cambios, se recomienda usar mejor `Migration Bundle` ya que este proceso empaquetará mejor los cambios que queremos ejecutar hacia la base de datos. 
 
