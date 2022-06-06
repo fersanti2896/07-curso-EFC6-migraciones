@@ -11,6 +11,8 @@ ___
 8. __Migration Bundles.__
 9. __Comando `Script-Migration`__
 10. __Database Migrate - Aplicando migraciones desde C#.__
+11. __Modelos Compilados.__
+12. __Base de Datos - Scaffold DbContex.__
 
 #### Comando `Get-Help`
 
@@ -20,7 +22,9 @@ Sirve para ver la documentación de los distintos comandos que podemos utilizar 
 
 Es un comando que plasma los cambios a realizar en nuestra base de datos, es decir, si agregamos una entidad o propiedad nueva que haga un cambio de configuración en la `API Fluent` se hace una migración para replicar los cambios en la base de datos. 
 
-Por ejemplo, en nuestra entidad `Genero.cs` agregamos una nueva propiedad, después generamos una nueva migración con el comando `Add-Migration`. 
+Por ejemplo, en nuestra entidad `Genero.cs` agregamos una nueva propiedad, después generamos una nueva migración con el comando:
+
+    Add-Migration 
 
 El cual la migración tendrá el nombre de `GeneroExample`.
 
@@ -50,7 +54,9 @@ Consideremos dos migraciones vacías, con nombres:
 
 ![segunda](/PeliculasWebAPI/images/migracion-segunda.png)
 
-Al especificar la migración con `Update-Database -Migration Primera`
+Al especificar la migración con:
+
+    Update-Database -Migration Primera
 
 ![migracion-especifica](/PeliculasWebAPI/images/update-database-especifico.PNG)
 
@@ -58,7 +64,9 @@ Si queremos asegurarnos de que solo se aplicó la migración en especifíco, com
 
 ![lista-migracion](/PeliculasWebAPI/images/lista-migraciones.PNG)
 
-Podemos aplicar las demás migraciones restantes con `Update-Database`.
+Podemos aplicar las demás migraciones restantes con: 
+
+    Update-Database
 
 Aquí empuja las migraciones restantes a nuestra base de datos. 
 
@@ -204,3 +212,30 @@ Otra forma de aplicar las migraciones (además de las pendientes) en nuestra apl
 Esta configuración se hace desde `Program.cs`, cuando se ejecuta la aplicación, implementará las migraciones hacia la base de datos, sin necesidad de usar los comandos que hemos visto. 
 
 ![database-migration](/PeliculasWebAPI/images/database-migration.png)
+
+#### Modelos Compilados
+
+Cuando se tienen muchas entidades y se carga por primera vez la aplicación, esta puede ser muy lenta, `Entity Framework Core` ya soluciona este problema, pero tiene otras modalidades al usar los modelos compilados:
+
+ - Nos permiten optimizar nuestros modelos. 
+ - No es recomendable si se tiene pocas entidades.
+ - No son compatibles con los filtros al niveld del modelo. 
+ - No son compatibles con `lady loading`.
+
+Para ejecutar los modelos compilados se usa: 
+
+    Optimize-DbContext
+
+En nuestra aplicación como tenemos pocos modelos, no es necesario usar los modelos compilados. 
+
+#### Bases de Datos Primero - Scaffold DbContext
+
+Nos permite generar a partir de la Base de Datos ya existente las entidades y el DbContext para ser utilizados con Entity Framework. 
+
+Para ello se crea un proyecto nuevo y desde el comando de consola, damos el comando: 
+
+    Scaffold-DbContext name=<Nombre de la conexion de BD> -Provider <Motor de BD> -OutputDir <Nombre carpeta de los modelos>
+
+Por ejemplo: 
+
+    Scaffold-DbContext name=DefaultConnection -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entidades
